@@ -1,0 +1,29 @@
+{
+    "settings" : {
+        "number_of_shards" : 8
+    },
+	"mappings": {
+		"report": {
+			"properties": {
+				"host": {
+					"type": "text"
+				},
+				"process": {
+					"type": "text"
+				},
+				"resource": {
+					"type": "text"
+				},
+				"report_type": {
+					"type": "text"
+				},
+				"message": {
+					"type": "text"
+				},
+				"report_time": {
+					"type": "date"
+				}
+			}
+		}
+	}
+}

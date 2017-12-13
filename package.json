@@ -1,0 +1,19 @@
+{
+  "name": "ensembl-prodinf-report",
+  "version": "1.0.0",
+  "description": "Reporting service for ensembl-prodinf",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "elasticsearch": "^14.0.0",
+    "express": "^4.16.2",
+    "get-json": "^1.0.0",
+    "log-timestamp": "^0.1.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
