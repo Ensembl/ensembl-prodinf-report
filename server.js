@@ -1,6 +1,8 @@
 require('log-timestamp');
 
-var es_client = require('./elasticsearch_client.js');
+var esClient = require('./elasticsearch_client.js');
+var mailClient = require('./email_client.js');
+var cfg = require('./config.js');
 
 var express    = require('express');        
 var app        = express();                 
@@ -13,9 +15,9 @@ var port = process.env.PORT || 3000;
 
 var router = express.Router();              
 
-function store_report(report) {
+function storeReport(report) {
 	var token = 'placeholder';
-	es_client.index({  
+	esClient.index({  
 		  index: 'reports',
 		  type: 'report',
 		  body: report
@@ -25,13 +27,35 @@ function store_report(report) {
 	return token;
 }
 
+function isSevere(type) {
+	console.log(type)
+	return type === 'severe';
+}
+
 router.post('/reports', function (req, res) {
 	var report = req.body; 
 	console.log(report);
-	// for some reports, raise an email alert
-	
 	// store all messages in the back end
-	var token = store_report(report);
+	var token = storeReport(report);
+	// for some reports, raise an email alert
+	if(isSevere(report.report_type)) {
+		console.log("Sending mail")
+		mailClient.sendMail({
+		    from: cfg.fromMail,
+		    to: cfg.toMail,
+		    subject: "Failure",
+		    text: 
+		    	`Time:    ${report.report_time}
+		    Resource: ${report.resource}
+		    Process:  ${report.process} on ${report.host}
+		    Details:  ${report.message}
+		    Token:    ${token}`
+		}, function(error, response){
+		    if(error){
+		        console.log(error);
+		    }
+		});
+	}
 	res.json({ message: 'message received and stored', token:token });
     return;
 })
