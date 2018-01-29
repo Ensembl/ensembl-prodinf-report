@@ -1,0 +1,64 @@
+{
+    "$id": "https://github.com/Ensembl/ensembl-prodinf-report/blob/master/resources/message_schema.json",
+    "type": "object",
+    "definitions": {
+
+    },
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "properties": {
+        "resource": {
+            "$id": "/properties/resource",
+            "type": "string",
+            "title": "Resource",
+            "description": "URI for the resource being processed.",
+            "examples": [
+                "mysql://somehost:3306/somedb"
+            ]
+        },
+        "level": {
+            "$id": "/properties/level",
+            "type": "string",
+            "title": "Message level",
+            "description": "Severity of event referred to by message.",
+            "examples": [
+                "DEBUG",
+                "INFO",
+                "WARN",
+                "ERROR",
+                "FATAL"
+            ]
+        },
+        "host": {
+            "$id": "/properties/host",
+            "type": "string",
+            "title": "Host name",
+            "description": "Name of originating host.",
+            "examples": [
+                "myhost"
+            ]
+        },
+        "process": {
+            "$id": "/properties/process",
+            "type": "string",
+            "title": "Process name",
+            "examples": [
+                "Some::Module"
+            ]
+        },
+        "message": {
+            "$id": "/properties/message",
+            "type": "string",
+            "title": "Message details",
+            "description": "Detailed message about event.",
+            "examples": [
+                "MySQL host not found"
+            ]
+        },
+        "params": {
+            "$id": "/properties/params",
+            "type": "object",
+            "title": "Process parameters",
+            "description": "Additional parameters"
+        }
+    }
+}
