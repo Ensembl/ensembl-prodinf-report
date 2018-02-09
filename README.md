@@ -23,10 +23,57 @@ RabbitMQ should be configured with a topic-based exchange (by default `report_ex
 Any RabbitMQ/AMPQ client can be used to write messages to the RabbitMQ instance described above, with the body meeting the JSON specification described, using the specified routing keys. 
 
 ### Writing messages with Perl
-A simple Log4perl appender is provided as `Bio::EnsEMBL::Production::Utils::QueueAppender`, with usage examples shown in `test_log.pl`. Note that contextual information needed for the messages should be provided via the calls to `Log::Log4perl::MDC::put` as shown in the example.
+A simple Log4perl appender is provided as `Bio::EnsEMBL::Production::Utils::QueueAppender`, part of the `ensembl-production` repository. Note that contextual information needed for the messages should be provided via the calls to `Log::Log4perl::MDC::put` as shown:
+```
+my $log = Log::Log4perl->get_logger("Foo::Bar");
+
+# set contextual properties that will be added to the messages generated
+Log::Log4perl::MDC->put('host',hostname);
+Log::Log4perl::MDC->put('resource','myres');
+Log::Log4perl::MDC->put('process','pid');
+Log::Log4perl::MDC->put('params',{param1=>'val1'});
+
+# create an appender with a connection to RabbitMQ
+my $q_appender =  Log::Log4perl::Appender->new(
+                                                    "Bio::EnsEMBL::Utils::QueueAppender",
+                                                    host=>'localhost',
+                                                    user=>'myuser',
+                                                    password=>'mypass',
+                                                    exchange=>'report_exchange');
+
+$log->add_appender($q_appender);
+
+# use the log
+$log->info("Hello, world!");
+```
+
 
 ### Writing messages with Python
-TODO
+A Python logging appender/formatter/filter set is provided in `ensembl-prodinf-core`. Example usage is:
+```
+import json
+from logging import Handler
+import logging
+import threading
+from ensembl_prodinf.reporting import QueueAppenderHandler, ContextFilter, JsonFormatter
+
+logger = logging.getLogger('hello')
+logger.setLevel(logging.DEBUG)
+
+# context for reports
+cxt = threading.local()
+cxt.host = 'here';
+cxt.process = 'pid';
+cxt.resource = 'myres';
+cxt.params = {"one":"two"}
+appender = QueueAppenderHandler("amqp://ensprod:ensprod@localhost:5672/%2F","report_exchange")
+appender.addFilter(ContextFilter(cxt))
+appender.setFormatter(JsonFormatter())
+logger.addHandler(appender)
+logger.info("Hello")
+cxt.host = 'there';
+logger.info("Goodbye")
+```
 
 ## Reading messages
 
