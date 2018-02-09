@@ -5,17 +5,17 @@ use strict;
 
 use base qw/Log::Log4perl::Appender/;
 
-use Data::Dumper;
 use Carp;
 use JSON qw/encode_json/;
 use Net::AMQP::RabbitMQ;
+use POSIX 'strftime';
 
 my $binding_keys = {
-                    FATAL=>'log.fatal',
-                    ERROR=>'log.error',
-                    INFO=>'log.info',
-                    DEBUG=>'log.debug',
-                    WARN=>'log.warn'
+                    FATAL=>'report.fatal',
+                    ERROR=>'report.error',
+                    INFO=>'report.info',
+                    DEBUG=>'report.debug',
+                    WARN=>'report.warn'
                    };
 
 my @keys = qw/host process resource params/;
@@ -45,6 +45,8 @@ sub log {
   }
   $msg->{level} = $params{log4p_level};
   $msg->{message} =~ s/^[A-Z]+ - (.*)\n?$/$1/;
+  # yyyy-MM-ddTHH:mm:ss
+  $msg->{report_time} = strftime '%Y-%m-%dT%H:%M:%S', localtime;;
   $self->{mq}->publish($self->{channel}, $key, encode_json($msg), { exchange => $self->{exchange} });
   return;
 }

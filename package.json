@@ -13,8 +13,17 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Dan Staines",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ensembl/ensembl-prodinf-report.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Ensembl/ensembl-prodinf-report/issues"
+  },
+  "homepage": "https://github.com/Ensembl/ensembl-prodinf-report#readme"
 }

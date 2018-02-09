@@ -1,0 +1,46 @@
+[
+	{
+		"source": "",
+		"vhost": "/",
+		"destination": "email_report",
+		"destination_type": "queue",
+		"routing_key": "email_report",
+		"arguments": {
+			
+		},
+		"properties_key": "email_report"
+	},
+	{
+		"source": "",
+		"vhost": "/",
+		"destination": "persistent_report",
+		"destination_type": "queue",
+		"routing_key": "persistent_report",
+		"arguments": {
+			
+		},
+		"properties_key": "persistent_report"
+	},
+	{
+		"source": "report_exchange",
+		"vhost": "/",
+		"destination": "email_report",
+		"destination_type": "queue",
+		"routing_key": "report.fatal",
+		"arguments": {
+			
+		},
+		"properties_key": "report.fatal"
+	},
+	{
+		"source": "report_exchange",
+		"vhost": "/",
+		"destination": "persistent_report",
+		"destination_type": "queue",
+		"routing_key": "report.*",
+		"arguments": {
+			
+		},
+		"properties_key": "report.%2A"
+	}
+]

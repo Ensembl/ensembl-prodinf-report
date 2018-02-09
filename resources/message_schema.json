@@ -1,64 +1,74 @@
 {
-    "$id": "https://github.com/Ensembl/ensembl-prodinf-report/blob/master/resources/message_schema.json",
-    "type": "object",
-    "definitions": {
-
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "properties": {
+    "host": {
+      "$id": "/properties/host",
+      "type": "string",
+      "title": "Host",
+      "description": "Host where report was raised",
+      "examples": [
+        "myhost.ebi.ac.uk"
+      ]
     },
-    "$schema": "http://json-schema.org/draft-06/schema#",
-    "properties": {
-        "resource": {
-            "$id": "/properties/resource",
-            "type": "string",
-            "title": "Resource",
-            "description": "URI for the resource being processed.",
-            "examples": [
-                "mysql://somehost:3306/somedb"
-            ]
-        },
-        "level": {
-            "$id": "/properties/level",
-            "type": "string",
-            "title": "Message level",
-            "description": "Severity of event referred to by message.",
-            "examples": [
-                "DEBUG",
-                "INFO",
-                "WARN",
-                "ERROR",
-                "FATAL"
-            ]
-        },
-        "host": {
-            "$id": "/properties/host",
-            "type": "string",
-            "title": "Host name",
-            "description": "Name of originating host.",
-            "examples": [
-                "myhost"
-            ]
-        },
-        "process": {
-            "$id": "/properties/process",
-            "type": "string",
-            "title": "Process name",
-            "examples": [
-                "Some::Module"
-            ]
-        },
-        "message": {
-            "$id": "/properties/message",
-            "type": "string",
-            "title": "Message details",
-            "description": "Detailed message about event.",
-            "examples": [
-                "MySQL host not found"
-            ]
-        },
-        "params": {
-            "$id": "/properties/params",
-            "type": "object",
-            "title": "Process parameters",
-            "description": "Additional parameters"
-        }
-    }
+    "process": {
+      "$id": "/properties/process",
+      "type": "string",
+      "title": "Process",
+      "description": "Name of process, module or application raising this message",
+      "examples": [
+        "ProcessGenome"
+      ]
+    },
+    "resource": {
+      "$id": "/properties/resource",
+      "type": "string",
+      "title": "Resource description",
+      "description": "Name, URI or description of the resource being processed.",
+      "default": "",
+      "examples": [
+        "mysql://someone@localhost:3306/homo_sapiens_core_91_38"
+      ]
+    },
+    "report_type": {
+      "$id": "/properties/report_type",
+      "type": "string",
+      "title": "Report type",
+      "description": "Type/level of report",
+      "default": "",
+      "examples": [
+        "log.fatal",
+        "log.error",
+        "log.warn",
+        "log.info",
+        "log.debug"
+      ]
+    },
+    "message": {
+      "$id": "/properties/message",
+      "type": "string",
+      "title": "Message",
+      "description": "Free-text message associated with the report.",
+      "examples": [
+        "Something bad happened"
+      ]
+    },
+    "report_time": {
+      "$id": "/properties/report_time",
+      "type": "string",
+      "title": "Report time",
+      "description": "Time at which the report was raised in the format yyyy-MM-ddTHH:mm:ss",
+      "format":"date-time",
+      "examples": [
+        "2018-02-09T10:57:17"
+      ]
+    },
+    "parameters": {
+      "$id": "/properties/parameters",
+      "type": "object",
+      "title": "Parameters",
+      "description": "Additional optional parameters associated with the report"
+  }
 }

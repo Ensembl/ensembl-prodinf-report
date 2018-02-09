@@ -1,0 +1,11 @@
+{
+	"arguments": {
+		
+	},
+	"internal": false,
+	"auto_delete": false,
+	"durable": true,
+	"type": "topic",
+	"vhost": "/",
+	"name": "report_exchange"
+}

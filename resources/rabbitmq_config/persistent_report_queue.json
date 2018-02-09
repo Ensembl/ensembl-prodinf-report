@@ -1,0 +1,10 @@
+{
+	"arguments": {
+		
+	},
+	"exclusive": false,
+	"auto_delete": false,
+	"durable": true,
+	"vhost": "/",
+	"name": "persistent_report"
+}
