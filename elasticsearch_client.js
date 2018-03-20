@@ -26,8 +26,7 @@ amqp.connect(cfg.message_uri).then(function(conn) {
         
         ok = ok.then(function(_qok) {
             return ch.consume(queueName, function(msg) {
-
-                msgObj = JSON.parse(msg.content);
+                var msgObj = JSON.parse(msg.content);
                 winston.debug(msgObj.level + " : " + msgObj.message);
                 client.index({  
                     index: index,
