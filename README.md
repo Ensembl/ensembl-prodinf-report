@@ -49,30 +49,23 @@ $log->info("Hello, world!");
 
 
 ### Writing messages with Python
-A Python logging appender/formatter/filter set is provided in `ensembl-prodinf-core`. Example usage is:
+A Python logging appender/formatter/filter set is provided in `ensembl_prodinf.reporting` from [ensembl-prodinf-core](https://github.com/Ensembl/ensembl-prodinf-core). Example usage is:
 ```
-import json
-from logging import Handler
-import logging
-import threading
-from ensembl_prodinf.reporting import QueueAppenderHandler, ContextFilter, JsonFormatter
+from ensembl_prodinf.reporting import get_logger, get_pool, set_logger_context
 
-logger = logging.getLogger('hello')
-logger.setLevel(logging.DEBUG)
+# queue details
+report_server = "amqp://test:test@localhost:5672/%2F"
+report_exchange = 'report_exchange'
 
-# context for reports
-cxt = threading.local()
-cxt.host = 'here';
-cxt.process = 'pid';
-cxt.resource = 'myres';
-cxt.params = {"one":"two"}
-appender = QueueAppenderHandler("amqp://ensprod:ensprod@localhost:5672/%2F","report_exchange")
-appender.addFilter(ContextFilter(cxt))
-appender.setFormatter(JsonFormatter())
-logger.addHandler(appender)
-logger.info("Hello")
-cxt.host = 'there';
-logger.info("Goodbye")
+pool = get_pool(report_server)
+logger = get_logger(pool, report_exchange, 'my process', "my first resource", {"param1":"val1", "param2":99})
+logger.info("My first message")
+logger.fatal("My first bad message")
+
+# change the context
+set_logger_context(logger, "my second resource", {"param1":"val2", "param2":66})
+logger.info("My second message")
+logger.fatal("My second bad message")
 ```
 
 ## Reading messages
