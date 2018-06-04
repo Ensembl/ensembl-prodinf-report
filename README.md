@@ -5,6 +5,15 @@ It is intended to capture output from a wide variety of different processes and 
 
 RabbitMQ is used as an intermediate message store, and workers process messages in different ways according to their importance. For instance, critical errors are sent by email to alert the team, whilst all messages are stored in an Elasticsearch store so they can be searched. Other workers can be added to the system provided the correct queues are in place.
 
+## Installation
+
+`npm` is assumed as a prerequisite. The following command will install the winston, amqplib and elasticsearch node required modules
+
+To install:
+```
+npm install
+```
+
 ## Message structure
 Messages must conform to the defined [schema](message_schema.json) which specifies the following properties:
 * host
