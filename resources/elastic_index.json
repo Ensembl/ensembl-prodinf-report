@@ -21,7 +21,8 @@
           "type": "text"
         },
         "report_time": {
-          "type": "date"
+          "type": "date",
+          "format": "yyyy-MM-dd'T'HH:mm:ss.SSS"
         }
       }
     }
